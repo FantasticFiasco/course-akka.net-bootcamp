@@ -1,0 +1,15 @@
+syntax: glob
+
+# General
+Thumbs.db
+
+# .NET development
+bin
+obj
+gen
+packages
+.apt_generated
+.metadata
+*.suo
+*.user
+*.GhostDoc.xml
