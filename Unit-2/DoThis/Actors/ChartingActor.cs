@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using Akka.Actor;
@@ -8,28 +7,16 @@ namespace ChartApp.Actors
 {
     public class ChartingActor : UntypedActor
     {
-        #region Messages
-
-        public class InitializeChart
-        {
-            public InitializeChart(Dictionary<string, Series> initialSeries)
-            {
-                InitialSeries = initialSeries;
-            }
-
-            public Dictionary<string, Series> InitialSeries { get; private set; }
-        }
-
-        #endregion
-
         private readonly Chart _chart;
+
         private Dictionary<string, Series> _seriesIndex;
 
-        public ChartingActor(Chart chart) : this(chart, new Dictionary<string, Series>())
+        public ChartingActor(Chart chart)
+            : this(chart, new Dictionary<string, Series>())
         {
         }
 
-        public ChartingActor(Chart chart, Dictionary<string, Series> seriesIndex)
+        private ChartingActor(Chart chart, Dictionary<string, Series> seriesIndex)
         {
             _chart = chart;
             _seriesIndex = seriesIndex;
@@ -46,12 +33,12 @@ namespace ChartApp.Actors
 
         #region Individual Message Type Handlers
 
-        private void HandleInitialize(InitializeChart ic)
+        private void HandleInitialize(InitializeChart initializeChart)
         {
-            if (ic.InitialSeries != null)
+            if (initializeChart.InitialSeries != null)
             {
                 //swap the two series out
-                _seriesIndex = ic.InitialSeries;
+                _seriesIndex = initializeChart.InitialSeries;
             }
 
             //delete any existing series
@@ -67,6 +54,20 @@ namespace ChartApp.Actors
                     _chart.Series.Add(series.Value);
                 }
             }
+        }
+
+        #endregion
+
+        #region Messages
+
+        public class InitializeChart
+        {
+            public InitializeChart(Dictionary<string, Series> initialSeries)
+            {
+                InitialSeries = initialSeries;
+            }
+
+            public Dictionary<string, Series> InitialSeries { get; private set; }
         }
 
         #endregion

@@ -71,4 +71,3 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart sysChart;
     }
 }
-
